@@ -1,12 +1,20 @@
 const express = require('express');
-
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const catalogRouter = require('./routes/catalogRouter');
+const userRouter = require('./routes/userRouter');
 const hostname = 'localhost';
 const port = 3005;
 
 const app = express();
 
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use('/catalogs',catalogRouter);
+app.use('/users',userRouter );
+app.use(express.static(__dirname + '/public'));
+
 app.use((req, res) => {
-    console.log(req.headers);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');
     res.end('<html><body><h1>This is an Express Server</h1></body></html>');
