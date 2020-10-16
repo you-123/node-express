@@ -24,5 +24,29 @@ catalogRouter.route('/')
 .delete((req, res) => {
     res.end('Deleting all catalogs');
 });
+catalogRouter.route('/:parmid')
+.all((req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    next();
+})
+.get((req, res) => {
+    res.end(`Will send details of the catalogs: ${req.params.parmid} to you`);
+})
+
+.post( (req, res) => {
+    res.statusCode = 403;
+    res.end(`POST operation not supported on /catalogs/${req.params.parmid}`);
+})
+
+.put( (req, res) => {
+    res.write(`Updating the catalog: ${req.params.parmid}\n`);
+    res.end(`Will update the catalog name: ${req.body.name}, price: ${req.body.price}
+        and  description: ${req.body.description}`);
+})
+
+.delete((req, res) => {
+    res.end(`Deleting catalog: ${req.params.parmid}`);
+});
 
 module.exports =catalogRouter; 
